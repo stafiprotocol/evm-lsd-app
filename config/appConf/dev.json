@@ -1,16 +1,16 @@
 {
   "chain": {
-    "id": 97,
-    "name": "BSC Testnet"
+    "id": 713715,
+    "name": "Sei Devnet"
   },
-  "rpc": "https://data-seed-prebsc-1-s1.binance.org:8545",
-  "explorer": "https://testnet.bscscan.com",
+  "rpc": "https://evm-rpc-arctic-1.sei-apis.com",
+  "explorer": "https://seistream.app/",
   "contracts": {
     "lsdToken": {
-      "address": "0x1d6e3423d2cccf068fae1f787f7626d7a965bca9"
+      "address": "0x5631bDF6d9Ce61ca83591d49B03486C3B18032BB"
     },
     "stakeManager": {
-      "address": "0x9c0f06f6769247dd663ef0602e09f26b293c12df"
+      "address": "0x19adA52DB07f3e609a7656D339b7Ca81381160ed"
     }
   }
 }

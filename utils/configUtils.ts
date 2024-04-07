@@ -1,5 +1,5 @@
 import appConfig from "config/appConf/app.json";
-import { getEvmChainId } from "config/env";
+import { getEvmChainId, getWagmiChainConfig } from "config/env";
 import { bscTestnet, bsc, mainnet } from "wagmi/chains";
 
 export function getTokenName() {
@@ -81,8 +81,11 @@ export function getWagmiNetwork() {
     return bscTestnet;
   } else if (getEvmChainId() === 56) {
     return bsc;
+  } else {
+    return getWagmiChainConfig();
   }
-  return mainnet;
+
+  // return mainnet;
 }
 
 export function needRelayFee() {

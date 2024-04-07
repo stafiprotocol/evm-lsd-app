@@ -1,12 +1,13 @@
 {
   "appTitle": "EVM LSD App",
   "token": {
-    "tokenName": "BNB",
+    "isNative": true,
+    "tokenName": "SEI",
     "tokenDecimals": 18,
-    "lsdTokenName": "rBNB",
-    "supportChains": ["BSC"],
-    "tokenStandard": "BEP20",
-    "tokenChainName": "BSC Chain",
+    "lsdTokenName": "rSEI",
+    "supportChains": ["SEI"],
+    "tokenStandard": "SEI",
+    "tokenChainName": "SEI Chain",
     "lsdTokenIconUri": "https://cdn.stafi.io/rtoken/logo/rBNB.png",
     "tokenImg": "/images/token/token_green.svg",
     "lsdTokenImg": "/images/token/lsdToken.svg",
@@ -16,7 +17,7 @@
     "lockTipLink": "https://docs.stafi.io/stakingbnb/#how-to-unstake"
   },
   "apr": 5,
-  "needRelayFee": true,
+  "needRelayFee": false,
   "detailedInfo": {
     "audit": {
       "nameList": ["Blocksec"],

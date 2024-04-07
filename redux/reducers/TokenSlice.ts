@@ -38,11 +38,12 @@ import {
   updateWithdrawLoadingParams,
   updateUnstakeLoadingParams,
 } from "./AppSlice";
-import { getLsdTokenName, getTokenName } from "utils/configUtils";
+import { getLsdTokenName, getTokenName, needRelayFee } from "utils/configUtils";
 import BN from "bn.js";
 import { fromWei, toWei } from "web3-utils";
 import { viemClient } from "connectors/walletConnect";
 import { parseEther } from "viem";
+import { isNativeToken } from "config/env";
 
 export interface WithdrawInfo {
   overallAmount: string | undefined;
@@ -214,7 +215,7 @@ export const handleTokenStake =
 
       const result = await writeAsync({
         function: "stake",
-        args: [amount],
+        args: isNativeToken() ? [] : [amount],
         from: metaMaskAccount,
         value: msgValue.toString(),
       });
@@ -408,7 +409,9 @@ export const handleLsdTokenUnstake =
       const unstakeResult = await unstakeWriteAsync({
         args: [amount],
         from: metaMaskAccount,
-        value: parseEther(relayFee as `${number}`, "wei"),
+        ...(needRelayFee()
+          ? { value: parseEther(relayFee as `${number}`, "wei") }
+          : {}),
         gas: Number("0x54647"),
       });
       const unstakeTxReceipt = await fetchTransactionReceipt(
@@ -446,7 +449,7 @@ export const handleLsdTokenUnstake =
           amount: Number(unstakeAmount) + "",
           willReceiveAmount: Number(willReceiveAmount) + "",
         },
-        scanUrl: getExplorerTxUrl(unstakeResult.transactionHash),
+        scanUrl: getExplorerTxUrl(txHash),
         status: "Confirmed",
       };
       dispatch(addNotice(newNotice));
@@ -588,7 +591,9 @@ export const handleTokenWithdraw =
       const withdrawResult = await writeAsync({
         args: [],
         from: metaMaskAccount,
-        value: parseEther(relayFee as `${number}`, "wei"),
+        ...(needRelayFee()
+          ? { value: parseEther(relayFee as `${number}`, "wei") }
+          : {}),
       });
       const withdrawTxReceipt = await fetchTransactionReceipt(
         // @ts-ignore
