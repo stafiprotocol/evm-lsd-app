@@ -64,6 +64,10 @@ export function getTokenPriceUrl() {
   return appConfig.tokenPriceUrl;
 }
 
+export function getTokenPriceId() {
+  return appConfig.tokenPriceId;
+}
+
 export function getDefaultApr() {
   return appConfig.apr;
 }

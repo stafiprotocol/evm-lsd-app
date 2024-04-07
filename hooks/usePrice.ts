@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getTokenPriceUrl } from "utils/configUtils";
+import { getTokenPriceId, getTokenPriceUrl } from "utils/configUtils";
 import { useAppSlice } from "./selector";
 import { useAppDispatch, useAppSelector } from "./common";
 import { setTokenPrice } from "redux/reducers/TokenSlice";
@@ -48,7 +48,7 @@ export function usePrice() {
       });
       const resJson = await response.json();
       if (resJson) {
-        const { usd } = resJson.binancecoin;
+        const { usd } = resJson[getTokenPriceId()];
         dispatch(setTokenPrice(usd));
       }
     } catch (err: any) {}

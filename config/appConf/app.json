@@ -110,5 +110,6 @@
       "link": "https://t.me/stafi_protocol"
     }
   ],
-  "tokenPriceUrl": "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd"
+  "tokenPriceUrl": "https://api.coingecko.com/api/v3/simple/price?ids=sei-network&vs_currencies=usd",
+  "tokenPriceId": "sei-network"
 }
