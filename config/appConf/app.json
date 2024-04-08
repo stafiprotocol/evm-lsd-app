@@ -8,10 +8,10 @@
     "supportChains": ["SEI"],
     "tokenStandard": "SEI",
     "tokenChainName": "SEI Chain",
-    "lsdTokenIconUri": "https://cdn.stafi.io/rtoken/logo/rBNB.png",
+    "lsdTokenIconUri": "https://cdn.stafi.io/rtoken/logo/rSEI.png",
     "tokenImg": "/images/token/token_green.svg",
     "lsdTokenImg": "/images/token/lsdToken.svg",
-    "chainImg": "/images/bsc_chain.svg"
+    "chainImg": "/images/sei_chain.png"
   },
   "unstake": {
     "lockTipLink": "https://docs.stafi.io/stakingbnb/#how-to-unstake"
