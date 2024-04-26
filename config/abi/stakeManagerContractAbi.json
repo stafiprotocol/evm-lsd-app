@@ -3,7 +3,8 @@
   { "inputs": [], "name": "AddressNotAllowed", "type": "error" },
   { "inputs": [], "name": "AlreadyInitialized", "type": "error" },
   { "inputs": [], "name": "AlreadyWithdrawed", "type": "error" },
-  { "inputs": [], "name": "BalanceNotMatch", "type": "error" },
+  { "inputs": [], "name": "CallerNotAllowed", "type": "error" },
+  { "inputs": [], "name": "CommissionRateInvalid", "type": "error" },
   { "inputs": [], "name": "DelegateNotEmpty", "type": "error" },
   { "inputs": [], "name": "EraNotMatch", "type": "error" },
   { "inputs": [], "name": "FailedToCall", "type": "error" },
@@ -47,6 +48,7 @@
     "name": "GreaterThanMaxUnbondingDuration",
     "type": "error"
   },
+  { "inputs": [], "name": "InvalidRate", "type": "error" },
   {
     "inputs": [
       { "internalType": "uint256", "name": "eraSeconds", "type": "uint256" }
@@ -54,23 +56,9 @@
     "name": "LessThanMinEraSeconds",
     "type": "error"
   },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "rateChangeLimit",
-        "type": "uint256"
-      }
-    ],
-    "name": "LessThanMinRateChangeLimit",
-    "type": "error"
-  },
   { "inputs": [], "name": "NotAuthorizedLsdToken", "type": "error" },
-  { "inputs": [], "name": "NotDelegationBalancer", "type": "error" },
   { "inputs": [], "name": "NotEnoughStakeAmount", "type": "error" },
-  { "inputs": [], "name": "NotFactoryAdmin", "type": "error" },
   { "inputs": [], "name": "NotInitialized", "type": "error" },
-  { "inputs": [], "name": "NotOwner", "type": "error" },
   {
     "inputs": [
       { "internalType": "address", "name": "poolAddress", "type": "address" }
@@ -97,7 +85,8 @@
   { "inputs": [], "name": "UnstakeTimesExceedLimit", "type": "error" },
   { "inputs": [], "name": "ValidatorDuplicated", "type": "error" },
   { "inputs": [], "name": "ValidatorNotExist", "type": "error" },
-  { "inputs": [], "name": "WithdrawRewardsFailed", "type": "error" },
+  { "inputs": [], "name": "ValidatorsEmpty", "type": "error" },
+  { "inputs": [], "name": "ValidatorsLenExceedLimit", "type": "error" },
   {
     "inputs": [
       { "internalType": "uint256", "name": "eraSeconds", "type": "uint256" },
@@ -197,31 +186,6 @@
       }
     ],
     "name": "Initialized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "pool",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "validator",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "nonce",
-        "type": "uint256"
-      }
-    ],
-    "name": "NewClaimedNonce",
     "type": "event"
   },
   {
@@ -442,14 +406,14 @@
   },
   {
     "inputs": [],
-    "name": "MIN_ERA_SECONDS",
+    "name": "MAX_VALIDATORS_LEN",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "MIN_RATE_CHANGE_LIMIT",
+    "name": "MIN_ERA_SECONDS",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -466,6 +430,16 @@
       { "internalType": "address", "name": "_poolAddress", "type": "address" }
     ],
     "name": "addStakePool",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_poolAddress", "type": "address" },
+      { "internalType": "string", "name": "_validator", "type": "string" }
+    ],
+    "name": "addValidator",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -514,7 +488,7 @@
   },
   {
     "inputs": [],
-    "name": "factoryCommissionRate",
+    "name": "factoryFeeCommission",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -683,10 +657,33 @@
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "_poolAddress", "type": "address" },
+      { "internalType": "string", "name": "_validator", "type": "string" }
+    ],
+    "name": "rmValidator",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "uint256", "name": "_eraSeconds", "type": "uint256" },
       { "internalType": "uint256", "name": "_eraOffset", "type": "uint256" }
     ],
     "name": "setEraParams",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_factoryFeeCommission",
+        "type": "uint256"
+      }
+    ],
+    "name": "setFactoryFeeCommission",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

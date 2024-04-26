@@ -7,10 +7,10 @@
   "explorer": "https://seistream.app/",
   "contracts": {
     "lsdToken": {
-      "address": "0x5631bDF6d9Ce61ca83591d49B03486C3B18032BB"
+      "address": "0x450bEA519b9874B22A626F63643F76be52D98AbF"
     },
     "stakeManager": {
-      "address": "0x19adA52DB07f3e609a7656D339b7Ca81381160ed"
+      "address": "0xE50b20Fc267A7A7aA81124a6623E608F8EEC105A"
     }
   }
 }
