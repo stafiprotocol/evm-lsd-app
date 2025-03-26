@@ -133,18 +133,24 @@ export const updateApr = (): AppThunk => async (dispatch, getState) => {
       getStakeManagerContract()
     );
 
+    const currentEra = await contract.methods.currentEra().call();
+    if (currentEra <= 3) return;
     const eraSeconds = await contract.methods.eraSeconds().call();
     if (!eraSeconds) return;
-    const currentEra = await contract.methods.currentEra().call();
-    if (!currentEra) return;
-
-    // 7 days before
-    const numEras = (60 * 60 * 24 * 7) / Number(eraSeconds);
+    
+    let eraLength = 7;
+    if (currentEra < eraLength + 3) {
+      eraLength = 1;
+    }
 
     const beginRate = await contract.methods
-      .eraRate(currentEra - numEras)
+      .eraRate(currentEra - eraLength - 1)
       .call();
-    const endRate = await contract.methods.getRate().call();
+    const endRate = await contract.methods
+      .eraRate(currentEra - 1)
+      .call();
+
+    const timeDiff = eraSeconds * eraLength;
 
     if (
       !isNaN(beginRate) &&
@@ -154,8 +160,7 @@ export const updateApr = (): AppThunk => async (dispatch, getState) => {
       beginRate !== endRate
     ) {
       apr =
-        (((endRate - beginRate) / 7) * 365.25 * 100) /
-        Math.pow(10, getTokenDecimals());
+        (365.25 * 24 * 60 * 60 * (endRate - beginRate) * 100) / beginRate / timeDiff;
     }
 
     dispatch(setApr(apr));
