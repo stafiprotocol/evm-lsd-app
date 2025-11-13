@@ -8,6 +8,7 @@ import {
 import {
   removeStorage,
   saveStorage,
+  STORAGE_KEY_DARK_MODE,
   STORAGE_KEY_UNREAD_NOTICE,
 } from "utils/storageUtils";
 
@@ -92,6 +93,11 @@ export const appSlice = createSlice({
   reducers: {
     setDarkMode: (state: AppState, aciton: PayloadAction<boolean>) => {
       state.darkMode = aciton.payload;
+      if (aciton.payload) {
+        saveStorage(STORAGE_KEY_DARK_MODE, "1");
+      } else {
+        removeStorage(STORAGE_KEY_DARK_MODE);
+      }
     },
     setCollapseOpenId: (
       state: AppState,

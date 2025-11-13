@@ -214,9 +214,9 @@ export const handleTokenStake =
 
       const result = await writeAsync({
         function: "stake",
-        args: [amount],
+        args: [],
         from: metaMaskAccount,
-        value: msgValue.toString(),
+        value: amount,
       });
       // @ts-ignore
       const txReceipt = await fetchTransactionReceipt(viemClient, result.hash);
@@ -408,8 +408,8 @@ export const handleLsdTokenUnstake =
       const unstakeResult = await unstakeWriteAsync({
         args: [amount],
         from: metaMaskAccount,
-        value: parseEther(relayFee as `${number}`, "wei"),
-        gas: Number("0x54647"),
+        // value: parseEther(relayFee as `${number}`, "wei"),
+        // gas: Number("0x54647"),
       });
       const unstakeTxReceipt = await fetchTransactionReceipt(
         // @ts-ignore
@@ -446,11 +446,12 @@ export const handleLsdTokenUnstake =
           amount: Number(unstakeAmount) + "",
           willReceiveAmount: Number(willReceiveAmount) + "",
         },
-        scanUrl: getExplorerTxUrl(unstakeResult.transactionHash),
+        scanUrl: getExplorerTxUrl(txHash),
         status: "Confirmed",
       };
       dispatch(addNotice(newNotice));
       dispatch(setUnstakeLoading(false));
+      cb && cb(true);
     } catch (err: any) {
       dispatch(setUnstakeLoading(false));
       // snackbarUtil.error(err.message);
@@ -468,6 +469,7 @@ export const handleLsdTokenUnstake =
           customMsg: displayMsg || "Unstake failed",
         })
       );
+      cb && cb(false);
     } finally {
       dispatch(updateTokenBalance());
     }

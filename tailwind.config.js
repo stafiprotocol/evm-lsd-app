@@ -11,7 +11,7 @@ module.exports = {
       white: "#ffffff",
       primary: "#00F3AB",
       // Background
-      bgPage: "#E8EFFD",
+      bgPage: "#F3F7FF",
       bgPageDark: "#222C3C",
       bg1: "#FFFFFF",
       bg1Dark: "#6C86AD80",

@@ -118,7 +118,7 @@ export const LsdTokenUnstake = () => {
   }, [unstakeAmount, tokenPrice, lsdTokenRate]);
 
   const estimateFee = useMemo(() => {
-    const gasLimit = 269319;
+    const gasLimit = 400000;
 
     return Web3.utils.fromWei(
       Web3.utils
@@ -270,10 +270,10 @@ export const LsdTokenUnstake = () => {
       clickConnectWallet();
       return;
     }
-    if (needRelayFee() && isNaN(Number(relayFee.unstake))) {
-      snackbarUtil.error(NETWORK_ERR_MESSAGE);
-      return;
-    }
+    // if (needRelayFee() && isNaN(Number(relayFee.unstake))) {
+    //   snackbarUtil.error(NETWORK_ERR_MESSAGE);
+    //   return;
+    // }
 
     dispatch(
       handleLsdTokenUnstake(
@@ -327,7 +327,7 @@ export const LsdTokenUnstake = () => {
         <Icomoon icon="right" color="#6C86AD" size=".11rem" />
       </div>
 
-      <div className="h-[1.07rem] mt-[.18rem] pt-[.24rem] mx-[.24rem] bg-color-bgPage rounded-[.3rem]">
+      <div className="h-[1.07rem] mt-[.18rem] pt-[.24rem] mx-[.24rem] bg-[#E8EFFD] dark:bg-[#222c3c] rounded-[.3rem]">
         <div className="mx-[.12rem] flex items-start">
           <div className="h-[.42rem] bg-color-bg2 rounded-[.3rem] flex items-center cursor-pointer">
             <div className="ml-[.08rem] flex items-center">

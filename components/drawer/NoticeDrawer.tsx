@@ -23,7 +23,7 @@ export const NoticeDrawer = (props: Props) => {
         "& .MuiPaper-root": {
           background: darkMode ? "#222C3C" : "#E8EFFD",
           width: "4.85rem",
-          paddingTop: "1rem",
+          paddingTop: "2.1rem",
         },
       }}
     >

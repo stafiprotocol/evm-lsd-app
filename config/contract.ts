@@ -2,7 +2,7 @@ import { isDev } from "./env";
 import appDevConfig from "./appConf/dev.json";
 import appProdConfig from "./appConf/prod.json";
 import lsdTokenContractAbi from "./abi/lsdTokenContractAbi.json";
-import stakeManagerContractAbi from "./abi/stakeManagerContractAbi.json";
+import stakeManagerContractAbi from "./abi/motoStakeManager.json";
 import { AbiItem } from "web3-utils";
 
 /**

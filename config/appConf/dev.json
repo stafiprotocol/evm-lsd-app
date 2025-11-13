@@ -1,16 +1,16 @@
 {
   "chain": {
-    "id": 97,
-    "name": "BSC Testnet"
+    "id": 10143,
+    "name": "Monad Testnet"
   },
-  "rpc": "https://data-seed-prebsc-1-s1.binance.org:8545",
-  "explorer": "https://testnet.bscscan.com",
+  "rpc": "https://testnet-rpc.monad.xyz",
+  "explorer": "https://monad-testnet.socialscan.io",
   "contracts": {
     "lsdToken": {
-      "address": "0x1d6e3423d2cccf068fae1f787f7626d7a965bca9"
+      "address": "0x655EbBe21D82B67F01b3196a905ac284F229eBEC"
     },
     "stakeManager": {
-      "address": "0x9c0f06f6769247dd663ef0602e09f26b293c12df"
+      "address": "0xf2Ae3319A60138399f632666E1eC0c17C760D4A0"
     }
   }
 }

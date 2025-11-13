@@ -84,9 +84,8 @@ export const clearLsdTokenBalance =
 export const updateLsdTokenBalance =
   (): AppThunk => async (dispatch, getState) => {
     try {
-      const metaMaskAccount = getState().wallet.metaMaskDisconnected
-        ? undefined
-        : getState().wallet.metaMaskAccount;
+      const metaMaskAccount = getState().wallet.metaMaskAccount;
+      if (!metaMaskAccount) return;
 
       const tokenAbi = getLsdTokenContractAbi();
       const tokenAddress = getLsdTokenContract();
@@ -134,10 +133,10 @@ export const updateApr = (): AppThunk => async (dispatch, getState) => {
     );
 
     const currentEra = await contract.methods.currentEra().call();
-    if (currentEra <= 3) return;
+    if (currentEra <= 3) throw new Error("current era <= 3");
     const eraSeconds = await contract.methods.eraSeconds().call();
-    if (!eraSeconds) return;
-    
+    if (!eraSeconds) throw new Error("no era seconds");
+
     let eraLength = 7;
     if (currentEra < eraLength + 3) {
       eraLength = 1;
@@ -146,9 +145,7 @@ export const updateApr = (): AppThunk => async (dispatch, getState) => {
     const beginRate = await contract.methods
       .eraRate(currentEra - eraLength - 1)
       .call();
-    const endRate = await contract.methods
-      .eraRate(currentEra - 1)
-      .call();
+    const endRate = await contract.methods.eraRate(currentEra - 1).call();
 
     const timeDiff = eraSeconds * eraLength;
 
@@ -160,7 +157,9 @@ export const updateApr = (): AppThunk => async (dispatch, getState) => {
       beginRate !== endRate
     ) {
       apr =
-        (365.25 * 24 * 60 * 60 * (endRate - beginRate) * 100) / beginRate / timeDiff;
+        (365.25 * 24 * 60 * 60 * (endRate - beginRate) * 100) /
+        beginRate /
+        timeDiff;
     }
 
     dispatch(setApr(apr));

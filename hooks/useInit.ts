@@ -10,7 +10,6 @@ import { updateApr } from "redux/reducers/LsdTokenSlice";
 import {
   setMetaMaskAccount,
   setMetaMaskChainId,
-  setMetaMaskDisconnected,
 } from "redux/reducers/WalletSlice";
 import {
   getStorage,
@@ -58,9 +57,6 @@ export function useInit() {
     // Init local data.
     const unreadNotice = getStorage(STORAGE_KEY_UNREAD_NOTICE);
     dispatch(setUnreadNoticeFlag(!!unreadNotice));
-    dispatch(
-      setMetaMaskDisconnected(!!getStorage(STORAGE_KEY_DISCONNECT_METAMASK))
-    );
     dispatch(setDarkMode(!!getStorage(STORAGE_KEY_DARK_MODE)));
   }, [dispatch]);
 
@@ -111,6 +107,6 @@ export function useInit() {
 
   // Change body backgroundColor
   useEffect(() => {
-    document.body.style.backgroundColor = darkMode ? "#222C3C" : "#E8EFFD";
+    document.body.style.backgroundColor = darkMode ? "#222C3C" : "#F3F7FF";
   }, [darkMode]);
 }

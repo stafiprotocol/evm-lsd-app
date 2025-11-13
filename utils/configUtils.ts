@@ -77,7 +77,7 @@ export function getExternalLinkList() {
 }
 
 export function getWagmiNetwork() {
-  if (getEvmChainId() === 97) {
+  if (getEvmChainId() === 10143) {
     return bscTestnet;
   } else if (getEvmChainId() === 56) {
     return bsc;

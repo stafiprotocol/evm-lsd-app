@@ -56,7 +56,7 @@ export function usePrice() {
 
   useEffect(() => {
     fetchGasPrice();
-    fetchTokenPrice();
+    // fetchTokenPrice();
   }, [updateFlag]);
 
   return {

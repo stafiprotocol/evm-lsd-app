@@ -6,7 +6,9 @@
     #85e0a3 95.05%
   ); */
   /* cursor: pointer; */
-  background-image: url("../public/images/button_bg1.png");
+  /* background-image: url("../public/images/button_bg1.png"); */
+  background: linear-gradient(8.2deg, #eae6fc -176.92%, #c4b9ff 6.3%);
+  border: 0.01rem solid #836ef9;
   background-size: 100% 100%;
   font-weight: 400;
 

@@ -104,7 +104,7 @@ export const LsdTokenStake = () => {
   }, [stakeAmount, lsdTokenRate]);
 
   const estimateFee = useMemo(() => {
-    const gasLimit = 104526;
+    const gasLimit = 250000;
 
     if (isNaN(gasPrice)) {
       return "--";
@@ -240,10 +240,6 @@ export const LsdTokenStake = () => {
       clickConnectWallet();
       return;
     }
-    if (needRelayFee() && isNaN(Number(relayFee.stake))) {
-      snackbarUtil.error(NETWORK_ERR_MESSAGE);
-      return;
-    }
 
     dispatch(
       handleTokenStake(
@@ -276,7 +272,7 @@ export const LsdTokenStake = () => {
 
   return (
     <div>
-      <div className="h-[1.07rem] mt-[.18rem] pt-[.24rem] mx-[.24rem] bg-color-bgPage rounded-[.3rem]">
+      <div className="h-[1.07rem] mt-[.18rem] pt-[.24rem] mx-[.24rem] bg-[#E8EFFD] dark:bg-[#222c3c] rounded-[.3rem]">
         <div className="mx-[.12rem] flex items-start">
           <div className="h-[.42rem] bg-color-bg2 rounded-[.3rem] flex items-center cursor-pointer">
             <div className="ml-[.08rem] flex items-center">
@@ -343,7 +339,6 @@ export const LsdTokenStake = () => {
         height=".56rem"
         type={isButtonSecondary ? "secondary" : "primary"}
         onClick={clickStake}
-        border="none"
       >
         <div className="flex items-center">
           {buttonText}

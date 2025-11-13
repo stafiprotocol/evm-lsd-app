@@ -4,9 +4,11 @@ import { LsdTokenStake } from "./LsdTokenStake";
 import { LsdTokenUnstake } from "./LsdTokenUnstake";
 import { useRouter } from "next/router";
 import styles from "styles/CustomButton.module.css";
+import { useAppSelector } from "hooks/common";
 
 export const StakePage = () => {
   const router = useRouter();
+  const { darkMode } = useAppSelector((state) => state.app);
 
   const selectedTab = useMemo(() => {
     const tabParam = router.query.tab;
@@ -37,7 +39,7 @@ export const StakePage = () => {
 
   return (
     <div>
-      <div className="bg-color-bg2 rounded-[.3rem] pb-[.14rem] border-[.01rem] border-color-border1">
+      <div className="bg-white/50 dark:bg-bg2Dark rounded-[.3rem] pb-[.14rem] border-[.01rem] border-color-border1">
         <div
           className="h-[.56rem] grid items-stretch"
           style={{ gridTemplateColumns: "50% 50%" }}
@@ -46,20 +48,20 @@ export const StakePage = () => {
             className={classNames(
               "cursor-pointer flex items-center justify-center rounded-tl-[.3rem] text-[.16rem] text-color-text1 border-[0.01rem]",
               selectedTab === "stake"
-                ? "font-[700] border-color-borderActive"
-                : "border-color-border1",
-              selectedTab === "stake" ? styles["selected-bg"] : "bg-color-bg2"
+                ? "font-[700] border-[#6E54FF]"
+                : "border-none"
+              // selectedTab === "stake" ? styles["selected-bg"] : "bg-color-bg2"
             )}
             style={{
-              // background:
-              //   selectedTab === "stake"
-              //     ? darkMode
-              //       ? "linear-gradient(274.08deg, rgba(128, 202, 255, 0.5) 1.81%, rgba(133, 224, 163, 0.5) 96.22%)"
-              //       : "linear-gradient(274.08deg, rgba(128, 202, 255, 0.2) 1.81%, rgba(133, 224, 163, 0.2) 96.22%)"
-              //     : darkMode
-              //     ? "#6C86AD4D"
-              //     : "#ffffff80",
-              borderRightWidth: selectedTab === "stake" ? "0.01rem" : "0px",
+              background:
+                selectedTab === "stake"
+                  ? darkMode
+                    ? "#6E54FF"
+                    : "linear-gradient(174.16deg, #EAE6FC 41.33%, #C4B9FF 169.02%)"
+                  : darkMode
+                  ? "#6c86ad4d"
+                  : "#ffffff",
+              borderLeftWidth: selectedTab === "stake" ? "0.01rem" : "0px",
             }}
             onClick={() => {
               updateTab("stake");
@@ -72,19 +74,19 @@ export const StakePage = () => {
             className={classNames(
               "cursor-pointer flex items-center justify-center rounded-tr-[.3rem] text-[.16rem] text-color-text1 border-[0.01rem]",
               selectedTab === "unstake"
-                ? "font-[700] border-color-borderActive"
-                : "border-color-border1",
-              selectedTab === "unstake" ? styles["selected-bg"] : "bg-color-bg2"
+                ? "font-[700] border-[#6E54FF]"
+                : "border-none"
+              // selectedTab === "unstake" ? styles["selected-bg"] : "bg-color-bg2"
             )}
             style={{
-              // background:
-              //   selectedTab === "unstake"
-              //     ? darkMode
-              //       ? "linear-gradient(274.08deg, rgba(128, 202, 255, 0.5) 1.81%, rgba(133, 224, 163, 0.5) 96.22%)"
-              //       : "linear-gradient(274.08deg, rgba(128, 202, 255, 0.2) 1.81%, rgba(133, 224, 163, 0.2) 96.22%)"
-              //     : darkMode
-              //     ? "#6C86AD4D"
-              //     : "#ffffff80",
+              background:
+                selectedTab === "unstake"
+                  ? darkMode
+                    ? "#6E54FF"
+                    : "linear-gradient(174.16deg, #EAE6FC 41.33%, #C4B9FF 169.02%)"
+                  : darkMode
+                  ? "#6c86ad4d"
+                  : "#ffffff",
               borderLeftWidth: selectedTab === "unstake" ? "0.01rem" : "0px",
             }}
             onClick={() => {

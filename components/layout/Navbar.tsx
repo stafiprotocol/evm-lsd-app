@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "hooks/common";
 import { useAppSlice } from "hooks/selector";
 import { useWalletAccount } from "hooks/useWalletAccount";
 import noticeIcon from "public/images/notice.png";
+import notice2Icon from "public/images/notice2.png";
 import {
   bindPopover,
   bindTrigger,
@@ -21,12 +22,31 @@ import { connectMetaMask, disconnectWallet } from "redux/reducers/WalletSlice";
 import { RootState } from "redux/store";
 import { getShortAddress } from "utils/stringUtils";
 import { getEvmChainId } from "config/env";
-import { getAuditList, getTokenChainName } from "utils/configUtils";
-import { getChainIcon } from "utils/iconUtils";
-import { useConnect } from "wagmi";
+import {
+  getAuditList,
+  getLsdTokenName,
+  getSupportChains,
+  getTokenChainName,
+  getTokenName,
+  getTokenStandard,
+} from "utils/configUtils";
+import { getChainIcon, getLsdTokenIcon } from "utils/iconUtils";
+import { useConnect, useDisconnect } from "wagmi";
+import { PageTitleContainer } from "components/common/PageTitleContainer";
+import { CustomTag } from "components/common/CustomTag";
+import { formatNumber } from "utils/numberUtils";
+import { useApr } from "hooks/useApr";
+import { useBalance } from "hooks/useBalance";
+import { useLsdTokenRate } from "hooks/useLsdTokenRate";
+import logoImg from "public/images/logo.svg";
 
 const Navbar = () => {
   const { unreadNoticeFlag } = useAppSlice();
+  const { darkMode } = useAppSelector((state) => state.app);
+
+  const { apr } = useApr();
+  const { lsdBalance } = useBalance();
+  const rate = useLsdTokenRate();
 
   const [noticeDrawerOpen, setNoticeDrawerOpen] = useState(false);
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
@@ -35,6 +55,14 @@ const Navbar = () => {
     document.documentElement.clientWidth
   );
   const { metaMaskAccount } = useWalletAccount();
+
+  const stakedToken = useMemo(() => {
+    console.log({ lsdBalance, rate });
+    if (isNaN(Number(lsdBalance)) || isNaN(Number(rate))) {
+      return "--";
+    }
+    return Number(lsdBalance) * Number(rate);
+  }, [lsdBalance, rate]);
 
   const resizeListener = () => {
     const clientW = document.documentElement.clientWidth;
@@ -51,71 +79,156 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="bg-color-bgPage py-[.36rem] flex items-center justify-center">
-      <div className="w-smallContentW xl:w-contentW 2xl:w-largeContentW mx-auto flex items-center justify-between relative">
-        <div
-          className={classNames("absolute top-[.11rem] w-[.82rem] h-[.2rem]")}
-        ></div>
+    <div
+      style={{
+        background: darkMode
+          ? "#222C3C"
+          : "linear-gradient(180deg, #EAE6FC 0%, #C4B9FF 100%)",
+      }}
+    >
+      <div className="py-[.36rem] flex items-center justify-center">
+        <div className="w-smallContentW xl:w-contentW 2xl:w-largeContentW mx-auto flex items-center justify-between relative">
+          <div
+            className={classNames("absolute top-[.11rem] w-[.82rem] h-[.2rem]")}
+          ></div>
 
-        <div className={classNames("flex items-center")}>
-          <AuditComponent
-            expand={auditExpand}
-            onExpandChange={setAuditExpand}
-          />
-        </div>
-
-        <div className={classNames("flex items-center")}>
-          <div className={classNames("ml-[.16rem]")}>
-            {metaMaskAccount ? (
-              <UserInfo auditExpand={auditExpand} />
-            ) : (
-              <ConnectButton />
-            )}
+          <div className={classNames("flex items-center")}>
+            {/* <AuditComponent
+              expand={auditExpand}
+              onExpandChange={setAuditExpand}
+            /> */}
+            <div className="relative w-[.216rem] h-[.1365rem]">
+              <Image src={logoImg} fill alt="logo" />
+            </div>
           </div>
 
-          <div
-            className={classNames(
-              "cursor-pointer ml-[.3rem] w-[.42rem] h-[.42rem] flex items-center justify-center rounded-[.12rem] relative",
-              noticeDrawerOpen ? "bg-color-selected" : ""
-            )}
-            onClick={() => {
-              setSettingsDrawerOpen(false);
-              setNoticeDrawerOpen(!noticeDrawerOpen);
-            }}
-          >
-            <div className="h-[.25rem] w-[.22rem] relative">
-              <Image src={noticeIcon} layout="fill" alt="notice" />
+          <div className={classNames("flex items-center")}>
+            <div className={classNames("ml-[.16rem]")}>
+              {metaMaskAccount ? (
+                <UserInfo auditExpand={auditExpand} />
+              ) : (
+                <ConnectButton />
+              )}
             </div>
 
-            {unreadNoticeFlag && (
-              <div className="bg-error rounded-full w-[.06rem] h-[.06rem] absolute right-[0.08rem] top-[0.08rem]"></div>
-            )}
+            <div
+              className={classNames(
+                "cursor-pointer ml-[.3rem] w-[.42rem] h-[.42rem] flex items-center justify-center rounded-[.12rem] relative",
+                noticeDrawerOpen ? "bg-color-selected" : ""
+              )}
+              onClick={() => {
+                setSettingsDrawerOpen(false);
+                setNoticeDrawerOpen(!noticeDrawerOpen);
+              }}
+            >
+              <div className="h-[.25rem] w-[.22rem] relative">
+                <Image
+                  src={darkMode ? notice2Icon : noticeIcon}
+                  layout="fill"
+                  alt="notice"
+                />
+              </div>
+
+              {unreadNoticeFlag && (
+                <div className="bg-error rounded-full w-[.06rem] h-[.06rem] absolute right-[0.08rem] top-[0.08rem]"></div>
+              )}
+            </div>
+
+            <div
+              className={classNames(
+                "cursor-pointer ml-[.3rem] w-[.42rem] h-[.42rem] flex items-center justify-center rounded-[.12rem]",
+                settingsDrawerOpen ? "bg-color-selected" : ""
+              )}
+              onClick={() => {
+                setNoticeDrawerOpen(false);
+                setSettingsDrawerOpen(!settingsDrawerOpen);
+              }}
+            >
+              <Icomoon
+                icon="more"
+                size=".2rem"
+                color={darkMode ? "#6c86ad" : "#222C3C"}
+              />
+            </div>
           </div>
 
-          <div
-            className={classNames(
-              "cursor-pointer ml-[.3rem] w-[.42rem] h-[.42rem] flex items-center justify-center rounded-[.12rem]",
-              settingsDrawerOpen ? "bg-color-selected" : ""
-            )}
-            onClick={() => {
-              setNoticeDrawerOpen(false);
-              setSettingsDrawerOpen(!settingsDrawerOpen);
-            }}
-          >
-            <Icomoon icon="more" size=".2rem" color="#6C86AD" />
-          </div>
+          <SettingsDrawer
+            open={settingsDrawerOpen}
+            onChangeOpen={setSettingsDrawerOpen}
+          />
+
+          <NoticeDrawer
+            open={noticeDrawerOpen}
+            onChangeOpen={setNoticeDrawerOpen}
+          />
         </div>
-
-        <SettingsDrawer
-          open={settingsDrawerOpen}
-          onChangeOpen={setSettingsDrawerOpen}
-        />
-
-        <NoticeDrawer
-          open={noticeDrawerOpen}
-          onChangeOpen={setNoticeDrawerOpen}
-        />
       </div>
+
+      <PageTitleContainer>
+        <div className="h-full flex items-center w-smallContentW xl:w-contentW 2xl:w-largeContentW">
+          <div className="w-[.68rem] h-[.68rem] flex items-center justify-center bg-white rounded-full">
+            <div className="w-[.41rem] h-[.41rem] relative">
+              <Image src={getLsdTokenIcon()} layout="fill" alt="icon" />
+            </div>
+          </div>
+          <div className="ml-[.12rem]">
+            <div className="flex items-center">
+              <div className="text-[.34rem] font-[700] text-color-text1">
+                {getLsdTokenName()}
+              </div>
+
+              <div className="ml-[.16rem]">
+                <CustomTag type="stroke">
+                  <div className="text-[.16rem] scale-75 origin-center">
+                    {getTokenStandard()}
+                  </div>
+                </CustomTag>
+              </div>
+
+              <div className="ml-[.06rem]">
+                <CustomTag>
+                  <div className="text-[.16rem] scale-75 origin-center flex items-center">
+                    <span className="font-[700]">
+                      {formatNumber(apr, { decimals: 2 })}%
+                    </span>
+                    <span className="ml-[.02rem]">APR</span>
+                  </div>
+                </CustomTag>
+              </div>
+
+              {/* <div
+                className="ml-[.24rem] flex items-center cursor-pointer"
+                onClick={() => {
+                  addLsdTokenToMetaMask();
+                }}
+              >
+                <div className="text-color-link text-[.14rem]">
+                  Add {getLsdTokenName()} to Wallet
+                </div>
+
+                <span className="ml-[.06rem] flex items-center">
+                  <Icomoon icon="share" size=".12rem" />
+                </span>
+              </div> */}
+            </div>
+
+            <div className="mt-[.04rem] text-color-text2 text-[.16rem] scale-75 origin-bottom-left">
+              On {getSupportChains().join(", ")} Chain
+            </div>
+          </div>
+
+          {metaMaskAccount && (
+            <div className="ml-auto mr-[.56rem] flex flex-col justify-center items-end">
+              <div className="text-[.34rem] font-[700] text-color-text1">
+                {formatNumber(lsdBalance)}
+              </div>
+              <div className="text-[.12rem] text-color-text1 mt-[.04rem]">
+                {formatNumber(stakedToken)} {getTokenName()} Staked
+              </div>
+            </div>
+          )}
+        </div>
+      </PageTitleContainer>
     </div>
   );
 };
@@ -124,6 +237,7 @@ const UserInfo = (props: { auditExpand: boolean }) => {
   const { auditExpand } = props;
   const dispatch = useAppDispatch();
   const { metaMaskAccount } = useWalletAccount();
+  const { disconnectAsync } = useDisconnect();
   const { darkMode } = useAppSelector((state: RootState) => {
     return {
       darkMode: state.app.darkMode,
@@ -176,7 +290,7 @@ const UserInfo = (props: { auditExpand: boolean }) => {
 
       <div
         className={classNames(
-          "cursor-pointer pr-[.04rem] flex items-center rounded-r-[.6rem]",
+          "cursor-pointer pr-[.54rem] flex items-center rounded-r-[.6rem] relative",
           addressPopupState.isOpen ? "bg-color-selected" : "",
           auditExpand
             ? "rounded-[.6rem] pl-[.04rem] 2xl:rounded-r-[.6rem] 2xl:pl-[.12rem]"
@@ -200,6 +314,8 @@ const UserInfo = (props: { auditExpand: boolean }) => {
             {getShortAddress(metaMaskAccount, 5)}
           </div>
         )}
+
+        <TestnetTag />
       </div>
 
       {/* Address Menu */}
@@ -254,8 +370,9 @@ const UserInfo = (props: { auditExpand: boolean }) => {
 
           <div
             className="cursor-pointer flex items-center justify-between"
-            onClick={() => {
+            onClick={async () => {
               addressPopupState.close();
+              disconnectAsync();
               dispatch(disconnectWallet());
             }}
           >
@@ -289,7 +406,7 @@ const ConnectButton = () => {
 
   return (
     <CustomButton
-      type="small"
+      // type="small"
       height=".42rem"
       onClick={() => {
         clickConnectWallet();
@@ -388,3 +505,11 @@ const AuditComponent = (props: AuditComponentProps) => {
 };
 
 export default Navbar;
+
+const TestnetTag = () => {
+  return (
+    <div className="bg-[#FFCD29] border-[.01rem] border-white/50 text-[.12rem] leading-[.18rem] text-text1 flex items-center justify-center px-[.06rem] py-[.04rem] absolute top-0 right-0 rounded-[.08rem]">
+      Testnet
+    </div>
+  );
+};
