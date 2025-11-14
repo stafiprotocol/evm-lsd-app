@@ -331,7 +331,7 @@ export const LsdTokenUnstake = () => {
         <div className="mx-[.12rem] flex items-start">
           <div className="h-[.42rem] bg-color-bg2 rounded-[.3rem] flex items-center cursor-pointer">
             <div className="ml-[.08rem] flex items-center">
-              <div className="w-[.34rem] h-[.34rem] relative">
+              <div className="w-[.34rem] h-[.34rem] relative bg-white rounded-full">
                 <Image src={getLsdTokenIcon()} alt="logo" layout="fill" />
               </div>
 

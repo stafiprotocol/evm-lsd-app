@@ -32,8 +32,6 @@ export const WithdrawUnstaked = (props: Props) => {
     return { withdrawLoading: state.app.withdrawLoading };
   });
 
-  const { relayFee } = useRelayFee();
-
   const { writeAsync } = useContractWrite({
     address: getStakeManagerContract() as `0x${string}`,
     abi: getStakeManagerContractAbi(),
@@ -54,16 +52,8 @@ export const WithdrawUnstaked = (props: Props) => {
     if (withdrawDisabled) {
       return;
     }
-    if (needRelayFee() && isNaN(Number(relayFee.withdraw))) {
-      snackbarUtil.error(NETWORK_ERR_MESSAGE);
-      return;
-    }
     dispatch(
-      handleTokenWithdraw(
-        writeAsync,
-        relayFee.withdraw + "",
-        withdrawInfo.avaiableWithdraw + ""
-      )
+      handleTokenWithdraw(writeAsync, withdrawInfo.avaiableWithdraw + "")
     );
   };
 

@@ -25,10 +25,6 @@ import HoverPopover from "material-ui-popup-state/HoverPopover";
 import { bindPopover } from "material-ui-popup-state";
 import { bindHover, usePopupState } from "material-ui-popup-state/hooks";
 import classNames from "classnames";
-import {
-  DEFAULT_MIN_STAKE_AMOUNT,
-  NETWORK_ERR_MESSAGE,
-} from "constants/common";
 import { useRelayFee } from "hooks/useRelayFee";
 import snackbarUtil from "utils/snackbarUtils";
 import { useConnect, useContractWrite, useSwitchNetwork } from "wagmi";
@@ -39,6 +35,7 @@ import {
 import { isEmptyValue } from "utils/commonUtils";
 import { BubblesLoading } from "components/common/BubblesLoading";
 import { usePrice } from "hooks/usePrice";
+import { useMinStakeAmount } from "hooks/useMinStakeAmount";
 
 export const LsdTokenStake = () => {
   const dispatch = useAppDispatch();
@@ -54,6 +51,7 @@ export const LsdTokenStake = () => {
 
   const { balance } = useBalance();
   const { relayFee } = useRelayFee();
+  const minStakeAmount = useMinStakeAmount();
 
   const { stakeLoading } = useAppSelector((state: RootState) => {
     return {
@@ -152,15 +150,16 @@ export const LsdTokenStake = () => {
       !stakeAmount ||
       isNaN(Number(stakeAmount)) ||
       Number(stakeAmount) === 0 ||
-      isNaN(Number(balance))
+      isNaN(Number(balance)) ||
+      isNaN(Number(minStakeAmount))
     ) {
       return [true, "Stake"];
     }
 
-    if (Number(stakeAmount) < DEFAULT_MIN_STAKE_AMOUNT) {
+    if (Number(stakeAmount) < Number(minStakeAmount)) {
       return [
         true,
-        `Minimal Stake Amount is ${DEFAULT_MIN_STAKE_AMOUNT} ${getTokenName()}`,
+        `Minimal Stake Amount is ${minStakeAmount} ${getTokenName()}`,
       ];
     }
 

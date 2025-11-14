@@ -560,7 +560,7 @@ export const updateLsdTokenUserWithdrawInfo =
  * @param amount withdraw amount
  */
 export const handleTokenWithdraw =
-  (writeAsync: any, relayFee: string, amount: string): AppThunk =>
+  (writeAsync: any, amount: string): AppThunk =>
   async (dispatch, getState) => {
     if (!writeAsync) return;
     const metaMaskAccount = getState().wallet.metaMaskAccount;
@@ -575,7 +575,6 @@ export const handleTokenWithdraw =
           modalVisible: true,
           status: "loading",
           tokenAmount: amount,
-          relayFee,
         })
       );
 
@@ -590,7 +589,6 @@ export const handleTokenWithdraw =
       const withdrawResult = await writeAsync({
         args: [],
         from: metaMaskAccount,
-        value: parseEther(relayFee as `${number}`, "wei"),
       });
       const withdrawTxReceipt = await fetchTransactionReceipt(
         // @ts-ignore
