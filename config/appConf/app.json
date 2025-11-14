@@ -7,7 +7,7 @@
     "supportChains": ["Monad"],
     "tokenStandard": "ERC20",
     "tokenChainName": "Monad Chain",
-    "lsdTokenIconUri": "https://cdn.stafi.io/rtoken/logo/rBNB.png",
+    "lsdTokenIconUri": "https://cdn.stafi.io/rtoken/logo/sMON.png",
     "tokenImg": "/images/token/token.svg",
     "lsdTokenImg": "/images/token/lsdToken.svg",
     "chainImg": "/images/chain.svg"
