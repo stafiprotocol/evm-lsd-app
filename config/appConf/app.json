@@ -73,35 +73,10 @@
       "link": "https://www.stafi.io/"
     },
     {
-      "name": "DAO Forum",
-      "link": "https://dao.stafi.io/"
-    },
-    {
-      "name": "Dune Dashboard",
-      "link": "https://dune.com/stafi-analysis/stafi"
-    },
-    {
       "name": "mMON Listing",
       "link": "https://docs.stafi.io/"
     }
   ],
-  "contactList": [
-    {
-      "type": "Twitter",
-      "link": "https://twitter.com/Stafi_Protocol"
-    },
-    {
-      "type": "Medium",
-      "link": "https://stafi-protocol.medium.com/"
-    },
-    {
-      "type": "Discord",
-      "link": "https://discord.com/invite/jB77etn"
-    },
-    {
-      "type": "Telegram",
-      "link": "https://t.me/stafi_protocol"
-    }
-  ],
+  "contactList": [],
   "tokenPriceUrl": "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd"
 }

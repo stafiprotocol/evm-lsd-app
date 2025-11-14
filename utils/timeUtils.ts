@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
-dayjs.extend(utc);
+// dayjs.extend(utc);
 
 /**
  * format date with template
@@ -13,7 +13,7 @@ export function formatDate(
   millis: number,
   template: string = "YYYY-M-D HH:mm"
 ) {
-  return dayjs.utc(millis).format(template);
+  return dayjs(millis).format(template);
 }
 
 export function formatWithdrawRemaingTime(milliSeconds: number) {
