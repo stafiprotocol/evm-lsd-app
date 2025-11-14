@@ -8,6 +8,8 @@ import {
   BLOCK_HASH_NOT_FOUND_MESSAGE,
   REJECTED_MESSAGE,
 } from "constants/common";
+import { readContract } from "wagmi/actions";
+import { getLsdTokenContract, getLsdTokenContractAbi } from "config/contract";
 
 declare const window: any;
 
@@ -64,6 +66,13 @@ export async function addLsdTokenToMetaMask() {
   }
 
   const params = getLsdTokenMetamaskParam();
+  const symbol = String(
+    await readContract({
+      address: getLsdTokenContract() as `0x${string}`,
+      abi: getLsdTokenContractAbi(),
+      functionName: "symbol",
+    })
+  );
 
   try {
     window.ethereum
@@ -73,7 +82,7 @@ export async function addLsdTokenToMetaMask() {
           type: "ERC20", // Initially only supports ERC20, but eventually more!
           options: {
             address: params.tokenAddress, // The address that the token is at.
-            symbol: params.tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            symbol, // A ticker symbol or shorthand, up to 5 chars.
             decimals: params.tokenDecimals, // The number of decimals in the token
             image: params.tokenImage, // A string url of the token logo
           },

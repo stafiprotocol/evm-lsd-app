@@ -189,7 +189,7 @@ export const handleTokenStake =
           willReceiveAmount,
           newLsdTokenBalance,
           relayFee,
-          customMsg: `Please confirm the ${stakeAmount} ${getTokenName()} staking transaction in your MetaMask wallet`,
+          customMsg: `Please confirm the ${stakeAmount} ${getTokenName()} staking transaction in your wallet`,
         })
       );
 

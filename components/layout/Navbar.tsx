@@ -39,6 +39,7 @@ import { useApr } from "hooks/useApr";
 import { useBalance } from "hooks/useBalance";
 import { useLsdTokenRate } from "hooks/useLsdTokenRate";
 import logoImg from "public/images/logo.svg";
+import { addLsdTokenToMetaMask } from "utils/web3Utils";
 
 const Navbar = () => {
   const { unreadNoticeFlag } = useAppSlice();
@@ -196,20 +197,20 @@ const Navbar = () => {
                 </CustomTag>
               </div>
 
-              {/* <div
+              <div
                 className="ml-[.24rem] flex items-center cursor-pointer"
                 onClick={() => {
                   addLsdTokenToMetaMask();
                 }}
               >
-                <div className="text-color-link text-[.14rem]">
+                <div className="text-color-text1 text-[.14rem]">
                   Add {getLsdTokenName()} to Wallet
                 </div>
 
                 <span className="ml-[.06rem] flex items-center">
                   <Icomoon icon="share" size=".12rem" />
                 </span>
-              </div> */}
+              </div>
             </div>
 
             <div className="mt-[.04rem] text-color-text2 text-[.16rem] scale-75 origin-bottom-left">
